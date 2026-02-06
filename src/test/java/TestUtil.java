@@ -18,6 +18,8 @@ public class TestUtil {
 //        return "";
 //    }
 
+    private static PrintStream ORIGINAL_OUT = System.out;
+    private static PrintStream CURRENT_OUT = System.out;
 
     public static Scanner genScanner(String input){
         return new Scanner(input);
@@ -29,7 +31,14 @@ public class TestUtil {
         PrintStream printStream = new PrintStream(byteArrayOutputStream);
 
         System.setOut(printStream);
+        CURRENT_OUT = printStream;
 
         return byteArrayOutputStream;
+    }
+
+    public static void clearSetOutToByteArray(ByteArrayOutputStream outputStream) throws Exception {
+        System.setOut(ORIGINAL_OUT);
+        outputStream.close();
+        CURRENT_OUT.close();
     }
 }
