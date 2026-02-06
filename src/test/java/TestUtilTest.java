@@ -21,8 +21,8 @@ public class TestUtilTest {
         String author = scanner.nextLine();
 
         assertThat(cmd).isEqualTo("등록");
-        assertThat(cmd).isEqualTo("현재를 사랑하라.");
-        assertThat(cmd).isEqualTo("작자미상");
+        assertThat(content).isEqualTo("현재를 사랑하라.");
+        assertThat(author).isEqualTo("작자미상");
     }
 
 
