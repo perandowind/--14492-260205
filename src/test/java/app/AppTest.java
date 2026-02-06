@@ -1,3 +1,5 @@
+package app;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -11,7 +13,7 @@ public class AppTest {
         String out = AppTestRunner.run("");
 
         // 굳이 출력해서 볼 필요없다면 생략해도됨
-//        TestUtil.clearSetOutToByteArray(outputStream);
+//        test.TestUtil.clearSetOutToByteArray(outputStream);
 //        System.out.println(out);
 
         assertThat(out).contains("== 명언 앱 ==");
