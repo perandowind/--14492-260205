@@ -1,3 +1,5 @@
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.util.Scanner;
 
 public class TestUtil {
@@ -17,8 +19,17 @@ public class TestUtil {
 //    }
 
 
-    public static Scanner getScanner(String input){
+    public static Scanner genScanner(String input){
         return new Scanner(input);
     }
 
+    public static ByteArrayOutputStream setOutByteArray() {
+
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        PrintStream printStream = new PrintStream(byteArrayOutputStream);
+
+        System.setOut(printStream);
+
+        return byteArrayOutputStream;
+    }
 }
