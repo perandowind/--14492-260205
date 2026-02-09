@@ -239,7 +239,7 @@ public class WiseSayingControllerTest {
                 .doesNotContain("2 / 작가 2 / 명언 2")
                 .doesNotContain("1 / 작가 1 / 명언 1");
 
-        System.out.println(out); //page=2, pageSize=5일때 결과 확인해보기
+//        System.out.println(out); //page=2, pageSize=5일때 결과 확인해보기
     }
 
     @Test
@@ -299,6 +299,8 @@ public class WiseSayingControllerTest {
                 .contains("2 / 작가 2 / 명언 2")
                 .contains("1 / 작가 1 / 명언 1")
                 .contains("페이지 : 1 / [2]");
+
+        System.out.println(out);
 
     }
 

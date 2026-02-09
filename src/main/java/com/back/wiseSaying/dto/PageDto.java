@@ -15,4 +15,9 @@ public class PageDto {
     private int totalCount;
     private List<WiseSaying> content;
 
+    /**Dto는 값을 바꾸는 것을 넣지 않는데, 아래 메서드는 값을 바꾸지않아서 사용가능*/
+    public int getPageCount() {
+        return (int) Math.ceil((double)totalCount / pageSize); //ceil -> 올림처리
+    }
+
 }
