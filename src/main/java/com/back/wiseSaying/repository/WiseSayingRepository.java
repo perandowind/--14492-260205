@@ -33,49 +33,39 @@ public class WiseSayingRepository {
     }
 
     public PageDto findListDesc(int page, int pageSize) {
-
-        int totalCount = wiseSayings.size();
-
-        List<WiseSaying> content = wiseSayings.reversed()
-                .stream()
-                .skip((long) (page - 1) * pageSize)
-                .limit(pageSize)
-                .toList();//참고: 스트림에선 reversed() 동작X
-
-        return new PageDto(page, pageSize, totalCount, content);
+        return pageOf(wiseSayings, page, pageSize);
     }
 
     public PageDto findByContentKeywordOrderByDesc(String keyword, int page, int pageSize) {
 
-        int totalCount = wiseSayings
+        List<WiseSaying> filteredContent = wiseSayings.reversed()
                 .stream()
                 .filter(w -> w.getSaying().contains(keyword))
-                .toList().size();
-
-        List<WiseSaying> content = wiseSayings.reversed()
-                .stream()
-                .skip((long) (page - 1) * pageSize) //skip(0) 처음부터 pageSize개 가져옴
-                .filter(w -> w.getSaying().contains(keyword))
-                .limit(pageSize)
                 .toList();
 
-        return new PageDto(page, pageSize, totalCount, content);
+        return pageOf(filteredContent, page, pageSize);
     }
 
     public PageDto findByAuthorKeywordOrderByDesc(String keyword, int page, int pageSize) {
 
-        int totalCount = wiseSayings
+        List<WiseSaying> filteredContent = wiseSayings.reversed()
                 .stream()
                 .filter(w -> w.getAuthor().contains(keyword))
-                .toList().size();
+                .toList();
 
-        List<WiseSaying> content = wiseSayings.reversed()
+        return pageOf(filteredContent, page, pageSize);
+    }
+
+
+    private PageDto pageOf(List<WiseSaying> filteredContent, int page, int pageSize) {
+        int totalCount = filteredContent.size();
+
+        List<WiseSaying> pagedFilteredContent = filteredContent.reversed()
                 .stream()
                 .skip((long) (page - 1) * pageSize)
-                .filter(w -> w.getAuthor().contains(keyword))
                 .limit(pageSize)
                 .toList();
 
-        return new PageDto(page, pageSize, totalCount, content);
+        return new PageDto(page, pageSize, totalCount, pagedFilteredContent);
     }
 }
