@@ -7,6 +7,7 @@ import com.back.wiseSaying.entity.WiseSaying;
 import com.back.wiseSaying.service.WiseSayingService;
 
 import java.util.Scanner;
+import java.util.stream.IntStream;
 
 public class WiseSayingController {
 
@@ -90,5 +91,18 @@ public class WiseSayingController {
                 .forEach(wiseSaying -> System.out.printf("%d / %s / %s%n",
                         wiseSaying.getId(), wiseSaying.getAuthor(), wiseSaying.getSaying()));
 
+        System.out.print("페이지 : ");
+        IntStream
+                .rangeClosed(1, 2)
+                .forEach((num) -> {
+                    if (num == page) {
+                        System.out.print("[" + num + "] ");
+                    }else {
+                        System.out.print(num);
+                    }
+                    System.out.print(" / ");
+                });
+
+        //System.out.println("페이지 : 1 / [2]");
     }
 }
