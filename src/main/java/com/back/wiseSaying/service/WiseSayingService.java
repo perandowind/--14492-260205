@@ -1,10 +1,9 @@
 package com.back.wiseSaying.service;
 
 import com.back.global.AppContext;
+import com.back.wiseSaying.dto.PageDto;
 import com.back.wiseSaying.entity.WiseSaying;
 import com.back.wiseSaying.repository.WiseSayingRepository;
-
-import java.util.List;
 
 public class WiseSayingService {
 
@@ -33,7 +32,7 @@ public class WiseSayingService {
         wiseSayingRepository.save(wiseSaying);
     }
 
-    public List<WiseSaying> findListDesc(String keyword, String keywordType, int page, int pageSize) {
+    public PageDto findListDesc(String keyword, String keywordType, int page, int pageSize) {
         return switch (keywordType) {
             case "content" -> wiseSayingRepository.findByContentKeywordOrderByDesc(keyword, page, pageSize);
             case "author" -> wiseSayingRepository.findByAuthorKeywordOrderByDesc(keyword, page, pageSize);
