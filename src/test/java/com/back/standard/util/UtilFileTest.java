@@ -1,11 +1,23 @@
 package com.back.standard.util;
 
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class UtilTest {
+public class UtilFileTest {
+    /**테스트 전처리*/
+    @BeforeAll
+    static void beforeAll() {
+        Util.file.mkdir("temp");
+    }
+    /**테스트 후처리*/
+    @AfterAll
+    static void afterAll() {
+        Util.file.rmdir("temp");
+    }
 
     @Test
     @DisplayName("파일 생성")
