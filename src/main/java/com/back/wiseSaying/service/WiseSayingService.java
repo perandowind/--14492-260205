@@ -33,8 +33,8 @@ public class WiseSayingService {
         wiseSayingRepository.save(wiseSaying);
     }
 
-    public List<WiseSaying> findListDesc() {
-        return wiseSayingRepository.findListDesc();
+    public List<WiseSaying> findListDesc(String keyword) {
+        return wiseSayingRepository.findByKeywordOrderByDesc(keyword);
     }
 
     public WiseSaying findByIdOrNull(int id) {
