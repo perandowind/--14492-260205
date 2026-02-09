@@ -72,6 +72,15 @@ public class Util {
                 return FileVisitResult.CONTINUE;
             }
         }
+
+        public static String get(String filePath, String defaultValue) {
+            try {
+                return Files.readString(getPath(filePath));
+            } catch (IOException e) {
+                return defaultValue;
+            }
+        }
+
     }
 
 
