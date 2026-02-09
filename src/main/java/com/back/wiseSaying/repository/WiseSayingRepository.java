@@ -23,15 +23,6 @@ public class WiseSayingRepository {
         return wiseSayings.removeIf(wiseSaying -> wiseSaying.getId() == id);
     }
 
-    public List<WiseSaying> findListDesc() {
-        return wiseSayings.reversed()
-                .stream()
-                .limit(5)
-                .toList(); //참고: 스트림에선 reversed() 동작X
-
-
-    }
-
     public WiseSaying findByIdOrNull(int id) {
 
         return wiseSayings.stream()
@@ -40,19 +31,29 @@ public class WiseSayingRepository {
                 .orElse(null);
     }
 
-    public List<WiseSaying> findByContentKeywordOrderByDesc(String keyword) {
+    public List<WiseSaying> findListDesc(int page, int pageSize) {
         return wiseSayings.reversed()
                 .stream()
+                .skip((long)(page - 1) * pageSize)
+                .limit(pageSize)
+                .toList(); //참고: 스트림에선 reversed() 동작X
+    }
+
+    public List<WiseSaying> findByContentKeywordOrderByDesc(String keyword, int page, int pageSize) {
+        return wiseSayings.reversed()
+                .stream()
+                .skip((long)(page - 1) * pageSize) //skip(0) 처음부터 pageSize개 가져옴
                 .filter(w -> w.getSaying().contains(keyword))
-                .limit(5)
+                .limit(pageSize)
                 .toList();
     }
 
-    public List<WiseSaying> findByAuthorKeywordOrderByDesc(String keyword) {
+    public List<WiseSaying> findByAuthorKeywordOrderByDesc(String keyword, int page, int pageSize) {
         return wiseSayings.reversed()
                 .stream()
+                .skip((long)(page - 1) * pageSize)
                 .filter(w -> w.getAuthor().contains(keyword))
-                .limit(5)
+                .limit(pageSize)
                 .toList();
     }
 }

@@ -33,11 +33,11 @@ public class WiseSayingService {
         wiseSayingRepository.save(wiseSaying);
     }
 
-    public List<WiseSaying> findListDesc(String keyword, String keywordType) {
+    public List<WiseSaying> findListDesc(String keyword, String keywordType, int page, int pageSize) {
         return switch (keywordType) {
-            case "content" -> wiseSayingRepository.findByContentKeywordOrderByDesc(keyword);
-            case "author" -> wiseSayingRepository.findByAuthorKeywordOrderByDesc(keyword);
-            default -> wiseSayingRepository.findListDesc(); //둘 다 아니면, 전체검색
+            case "content" -> wiseSayingRepository.findByContentKeywordOrderByDesc(keyword, page, pageSize);
+            case "author" -> wiseSayingRepository.findByAuthorKeywordOrderByDesc(keyword, page, pageSize);
+            default -> wiseSayingRepository.findListDesc(page, pageSize); //둘 다 아니면, 전체검색
         };
     }
 

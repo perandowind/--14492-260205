@@ -17,6 +17,13 @@ public class AppTestRunner {
         AppContext.init(sc);
         new App().run();
 
+        // App 을 다 돌리면 다시 모니터로 출력을 변경
+        try{
+            TestUtil.clearSetOutToByteArray(outputStream);
+        }catch (Exception e){
+            throw new RuntimeException(e);
+        }
+
         return outputStream.toString();
     }
 }
