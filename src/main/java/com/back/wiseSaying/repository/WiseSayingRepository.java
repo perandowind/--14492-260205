@@ -24,7 +24,12 @@ public class WiseSayingRepository {
     }
 
     public List<WiseSaying> findListDesc() {
-        return wiseSayings.reversed();
+        return wiseSayings.reversed()
+                .stream()
+                .limit(5)
+                .toList(); //참고: 스트림에선 reversed() 동작X
+
+
     }
 
     public WiseSaying findByIdOrNull(int id) {
@@ -36,16 +41,18 @@ public class WiseSayingRepository {
     }
 
     public List<WiseSaying> findByContentKeywordOrderByDesc(String keyword) {
-        return wiseSayings.stream()
+        return wiseSayings.reversed()
+                .stream()
                 .filter(w -> w.getSaying().contains(keyword))
-                .toList()
-                .reversed();
+                .limit(5)
+                .toList();
     }
 
     public List<WiseSaying> findByAuthorKeywordOrderByDesc(String keyword) {
-        return wiseSayings.stream()
+        return wiseSayings.reversed()
+                .stream()
                 .filter(w -> w.getAuthor().contains(keyword))
-                .toList()
-                .reversed();
+                .limit(5)
+                .toList();
     }
 }
