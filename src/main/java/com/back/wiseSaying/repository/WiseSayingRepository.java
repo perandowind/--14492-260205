@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WiseSayingRepository {
+
     private List<WiseSaying> wiseSayings = new ArrayList<>();
     private int lastId = 0;
 
@@ -18,7 +19,19 @@ public class WiseSayingRepository {
         return wiseSaying;
     }
 
+    public boolean delete(int id) {
+        return wiseSayings.removeIf(wiseSaying -> wiseSaying.getId() == id);
+    }
+
     public List<WiseSaying> findListDesc() {
         return wiseSayings.reversed();
+    }
+
+    public WiseSaying findByIdOrNull(int id) {
+
+        return wiseSayings.stream()
+                .filter(wiseSaying -> wiseSaying.getId() == id)
+                .findFirst()
+                .orElse(null);
     }
 }

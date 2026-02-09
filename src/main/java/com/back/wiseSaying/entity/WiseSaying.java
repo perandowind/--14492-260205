@@ -1,5 +1,10 @@
 package com.back.wiseSaying.entity;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Setter
+@Getter
 public class WiseSaying {
     private int id;
     private String saying;
@@ -14,27 +19,5 @@ public class WiseSaying {
         return id == 0;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
 
-    public void setSaying(String saying) {
-        this.saying = saying;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public String getSaying() {
-        return saying;
-    }
-
-    public String getAuthor() {
-        return author;
-    }
 }
