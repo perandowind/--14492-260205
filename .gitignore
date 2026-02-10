@@ -43,3 +43,8 @@ bin/
 
 ### custom ###
 temp
+
+# 데이터 저장 폴더 제외
+db/wiseSaying/*.json
+# 만약 폴더 자체를 제외하고 싶다면
+db/
