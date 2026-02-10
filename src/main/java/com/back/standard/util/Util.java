@@ -7,31 +7,28 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class Util {
-
-    // 이너 클래스
     public static class file {
 
         private static Path getPath(String filePath) {
             return Paths.get(filePath);
         }
 
-        public static void touch(String filePath) {
-            set(filePath, "");
-        }
-
-        public static void set(String filePath, String content) {
-            Path path = getPath(filePath);
-            try {
-                writeFile(path, content);
-            } catch (IOException e) {
-                handleFileWriteError(path, content, e);
-            }
-        }
-
         private static void writeFile(Path path, String content) throws IOException {
             Files.writeString(path, content,
                     StandardOpenOption.CREATE,
                     StandardOpenOption.TRUNCATE_EXISTING);
+        }
+
+        public static boolean rmdir(String dirPath) {
+            return delete(dirPath);
+        }
+
+        public static void mkdir(String dirPath) {
+            try {
+                Files.createDirectories(getPath(dirPath));
+            } catch (IOException e) {
+                throw new RuntimeException("디렉토리 생성 실패: " + dirPath, e);
+            }
         }
 
         private static void handleFileWriteError(Path path, String content, IOException e) {
@@ -48,29 +45,37 @@ public class Util {
             }
         }
 
+        public static void set(String filePath, String content) {
+            Path path = getPath(filePath);
+            try {
+                writeFile(path, content);
+            } catch (IOException e) {
+                handleFileWriteError(path, content, e);
+            }
+        }
+
+        public static String get(String filePath, String defaultValue) {
+            try {
+                return Files.readString(getPath(filePath));
+            } catch (IOException e) {
+                return defaultValue;
+            }
+        }
+
+        public static int getAsInt(String filePath, int defaultValue) {
+            try {
+                return Integer.parseInt(Files.readString(getPath(filePath)));
+            } catch (IOException e) {
+                return defaultValue;
+            }
+        }
+
+        public static void touch(String filePath) {
+            set(filePath, "");
+        }
+
         public static boolean exists(String filePath) {
             return Files.exists(getPath(filePath));
-        }
-
-        public static boolean delete(String filePath) {
-            try {
-                Files.walkFileTree(getPath(filePath), new FileDeleteVisitor());
-                return true;
-            } catch (IOException e) {
-                return false;
-            }
-        }
-
-        public static void  mkdir(String dirPath) {
-            try {
-                Files.createDirectories(getPath(dirPath));
-            } catch (IOException e) {
-                throw new RuntimeException("디렉토리 생성 실패: " + dirPath, e);
-            }
-        }
-
-        public static boolean rmdir(String dirPath) {
-            return delete(dirPath);
         }
 
         private static class FileDeleteVisitor extends SimpleFileVisitor<Path> {
@@ -87,19 +92,18 @@ public class Util {
             }
         }
 
-        public static String get(String filePath, String defaultValue) {
+
+        public static boolean delete(String filePath) {
             try {
-                return Files.readString(getPath(filePath));
+                Files.walkFileTree(getPath(filePath), new FileDeleteVisitor());
+                return true;
             } catch (IOException e) {
-                return defaultValue;
+                return false;
             }
         }
-
     }
 
-
     public static class json {
-
         public static String toString(Map<String, Object> map) {
             StringBuilder sb = new StringBuilder();
 
@@ -162,8 +166,6 @@ public class Util {
 
             return map;
         }
-
     }
-
 
 }
