@@ -1,8 +1,10 @@
 package com.back.wiseSaying.repository;
 
 import com.back.standard.util.Util;
+import com.back.wiseSaying.dto.PageDto;
 import com.back.wiseSaying.entity.WiseSaying;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -59,5 +61,34 @@ public class WiseSayingFileRepository {
 
     public void delete(WiseSaying wiseSaying) {
         Util.file.delete("%s/%d.json".formatted(getDbPath(), wiseSaying.getId()));
+    }
+
+    public List<WiseSaying> findAll() {
+        return Util.file.walkRegularFiles(getDbPath(), "^\\d+\\.json$")
+                .map(path -> Util.file.get(path.toString(), ""))
+                .map(Util.json::toMap)
+                .map(WiseSaying::fromMap)
+                .toList();
+
+    }
+
+    public PageDto findByContentContainingDesc(String kw, int page, int pageSize) {
+        List<WiseSaying> filteredContent = findAll().reversed().stream()
+                .filter(w -> w.getSaying().contains(kw))
+                .toList();
+
+        return pageOf(filteredContent, page, pageSize);
+    }
+
+    private PageDto pageOf(List<WiseSaying> filteredContent, int page, int pageSize) {
+        int totalCount = filteredContent.size();
+
+        List<WiseSaying> pagedFilteredContent = filteredContent
+                .stream()
+                .skip((long) (page - 1) * pageSize)
+                .limit(pageSize)
+                .toList();
+
+        return new PageDto(page, pageSize, totalCount, pagedFilteredContent);
     }
 }
