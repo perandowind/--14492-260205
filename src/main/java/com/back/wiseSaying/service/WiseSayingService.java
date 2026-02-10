@@ -21,7 +21,7 @@ public class WiseSayingService {
     }
 
     public boolean delete(int id) {
-        return wiseSayingRepository.delete(id);
+        return wiseSayingRepository.delete(id); //파일삭제인지, 메모리삭제인지 안보이는게 좋음
     }
 
     public void modify(WiseSaying wiseSaying, String newSaying, String newAuthor) {
