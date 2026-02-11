@@ -3,6 +3,7 @@ package com.back.global;
 import com.back.system.controller.SystemController;
 import com.back.wiseSaying.controller.WiseSayingController;
 import com.back.wiseSaying.repository.WiseSayingFileRepository;
+import com.back.wiseSaying.repository.WiseSayingMemRepository;
 import com.back.wiseSaying.repository.WiseSayingRepository;
 import com.back.wiseSaying.service.WiseSayingService;
 
@@ -13,20 +14,23 @@ public class AppContext {
     public static SystemController systemController;
     public static WiseSayingController wiseSayingController;
     public static WiseSayingService wiseSayingService;
-    public static WiseSayingRepository wiseSayingRepository;
+    public static WiseSayingMemRepository wiseSayingMemRepository;
     public static WiseSayingFileRepository wiseSayingFileRepository;
+    public static WiseSayingRepository wiseSayingRepository;
 
-    public static void init(Scanner _sc) {
+    public static void init(Scanner _sc, boolean isFileMode) {
         AppContext.sc = _sc;
         AppContext.wiseSayingFileRepository = new WiseSayingFileRepository();
-        AppContext.wiseSayingRepository = new WiseSayingRepository(); //생성순서 중요
+        AppContext.wiseSayingMemRepository = new WiseSayingMemRepository(); //생성순서 중요
+        AppContext.wiseSayingRepository = isFileMode ? wiseSayingFileRepository : wiseSayingMemRepository;
         AppContext.wiseSayingService = new WiseSayingService();
         AppContext.wiseSayingController = new WiseSayingController(sc);
         AppContext.systemController = new SystemController();
     }
 
+    /**기본값: 파일모드 */
     public static void init() {
-        init(new Scanner(System.in));
+        init(new Scanner(System.in), true);
     }
 
 }

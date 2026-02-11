@@ -5,6 +5,8 @@ import com.back.wiseSaying.dto.PageDto;
 import com.back.wiseSaying.entity.WiseSaying;
 import com.back.wiseSaying.repository.WiseSayingRepository;
 
+import java.util.Optional;
+
 public class WiseSayingService {
 
     private WiseSayingRepository wiseSayingRepository;
@@ -21,7 +23,11 @@ public class WiseSayingService {
     }
 
     public boolean delete(int id) {
-        return wiseSayingRepository.delete(id); //파일삭제인지, 메모리삭제인지 안보이는게 좋음
+        Optional<WiseSaying> wiseSayingOp = wiseSayingRepository.findById(id);
+        if (wiseSayingOp.isEmpty()) {
+            return false;
+        }
+        return wiseSayingRepository.delete(wiseSayingOp.get());
     }
 
     public void modify(WiseSaying wiseSaying, String newSaying, String newAuthor) {
@@ -34,14 +40,14 @@ public class WiseSayingService {
 
     public PageDto findListDesc(String keyword, String keywordType, int page, int pageSize) {
         return switch (keywordType) {
-            case "content" -> wiseSayingRepository.findByContentKeywordOrderByDesc(keyword, page, pageSize);
-            case "author" -> wiseSayingRepository.findByAuthorKeywordOrderByDesc(keyword, page, pageSize);
-            default -> wiseSayingRepository.findListDesc(page, pageSize); //둘 다 아니면, 전체검색
+            case "content" -> wiseSayingRepository.findByContentContainingDesc(keyword, page, pageSize);
+            case "author" -> wiseSayingRepository.findByAuthorContainingDesc(keyword, page, pageSize);
+            default -> wiseSayingRepository.findAll(page, pageSize); //둘 다 아니면, 전체검색
         };
     }
 
     public WiseSaying findByIdOrNull(int id) {
-        return wiseSayingRepository.findByIdOrNull(id);
+        return wiseSayingRepository.findById(id).orElse(null);
     }
 
 }
